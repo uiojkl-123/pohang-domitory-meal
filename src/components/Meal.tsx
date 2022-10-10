@@ -21,7 +21,7 @@ export const Meal: React.FC<MealProps> = (props) => {
                     <div className='cardContent'>
                         {value.breakfast.map((value) => {
                             return (
-                                <div className="mealItem">
+                                <div className="mealItem" key={value}>
                                     <div className="mealName">{value}</div>
                                 </div>
                             )
@@ -33,10 +33,10 @@ export const Meal: React.FC<MealProps> = (props) => {
                     <div className='cardHeader'>
                         <div>저녁</div>
                     </div>
-                    <div className='cardContent'>   
+                    <div className='cardContent'>
                         {value.dinner.map((value) => {
                             return (
-                                <div className="mealItem">
+                                <div className="mealItem" key={value}>
                                     <div className="mealName">{value}</div>
                                 </div>
                             )

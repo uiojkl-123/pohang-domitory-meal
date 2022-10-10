@@ -1,6 +1,8 @@
 export const dayToKorean = (day: string) => {
-    const year = day.slice(0, 4);
-    const month = day.slice(4, 6);
-    const date = day.slice(6, 8);
-    return `${year}년 ${Number(month)}월 ${Number(date)}일`;
+    const year = Number(day.slice(0, 4));
+    const month = Number(day.slice(4, 6));
+    const date = Number(day.slice(6, 8));
+    const dateObj = new Date(year, month - 1, date);
+    const dayKorean = dateObj.toLocaleDateString('ko-KR', { weekday: 'short' });
+    return `${year}년 ${month}월 ${date}일 (${dayKorean})`;
 };
