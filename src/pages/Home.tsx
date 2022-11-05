@@ -12,9 +12,10 @@ import './Home.css';
 const Home: React.FC = () => {
 
   const page = useRef(undefined);
-  const slideRef = useRef<HTMLIonSlidesElement>(null);
 
-  const todayyyyyMMdd = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  const now9HourAfter = new Date(new Date().setHours(new Date().getHours() + 9)); // 한국 시간
+
+  const todayyyyyMMdd = now9HourAfter.toISOString().slice(0, 10).replace(/-/g, '');
 
   const [day, setDay] = useState<string>(todayyyyyMMdd);
   const [dayFar, setDayFar] = useState<string>('오늘');
