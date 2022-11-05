@@ -111,12 +111,16 @@ const Home: React.FC = () => {
           <IonItem mode='ios' button lines='full' href='/upload'>
             <IonLabel>업로드 하기</IonLabel>
           </IonItem>
+          <IonItem mode='ios' button lines='full' href='https://github.com/uiojkl-123/pohang-domitory-meal'>
+            <IonLabel>Github 깃헙</IonLabel>
+          </IonItem>
         </IonContent>
         <IonFooter>
           <IonToolbar>
             <p className='footerDescription'>
-              문의 : aa187523@gmail.com<br></br>
-              개발자 : ㅜㅂ랴ㅔㅍㅇ
+              문의 : aa187523@gmail.com<br/>
+              개발자 : ㅜㅂ랴ㅔㅍㅇ<br/>
+              라이선스: MIT
             </p>
           </IonToolbar>
         </IonFooter>
