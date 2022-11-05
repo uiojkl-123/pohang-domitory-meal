@@ -4,6 +4,7 @@ import { Amount } from '../model/amount';
 import { MealClass } from '../model/meal';
 import { subscribeAmounts } from '../service/amount.service';
 import { useMealStore } from '../store/store';
+import { now9HourAfter, todayyyyyMMdd } from '../util/day';
 import { AmountButtons } from './AmountButtons';
 import { AmountComponent } from './AmountComponent';
 import './Meal.scss';
@@ -55,7 +56,7 @@ export const Meal: React.FC<MealProps> = (props) => {
                                 </div>
                             )
                         })}
-                        <AmountButtons breakfastOrDinner='breakfastAmount' day={nowDay}></AmountButtons>
+                        {(todayyyyyMMdd === nowDay) && now9HourAfter.getHours() > 7 && <AmountButtons breakfastOrDinner='breakfastAmount' day={nowDay}></AmountButtons>}
                     </div>
                 </div>
 
@@ -74,7 +75,7 @@ export const Meal: React.FC<MealProps> = (props) => {
                                 </div>
                             )
                         })}
-                        <AmountButtons breakfastOrDinner='dinnerAmount' day={nowDay}></AmountButtons>
+                        {(todayyyyyMMdd === nowDay) && now9HourAfter.getHours() > 16 && <AmountButtons breakfastOrDinner='dinnerAmount' day={nowDay}></AmountButtons>}
                     </div>
                 </div>
 

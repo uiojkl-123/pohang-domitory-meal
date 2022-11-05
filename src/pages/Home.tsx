@@ -5,7 +5,7 @@ import { Meal } from '../components/Meal';
 import { MealStoreType } from '../model/store';
 import { getDayMeal } from '../service/meal.service';
 import { useMealStore } from '../store/store';
-import { nextDayFromyyyyMMdd, prevDayFromyyyyMMdd, yyyyMMddToDate } from '../util/day';
+import { nextDayFromyyyyMMdd, prevDayFromyyyyMMdd, todayyyyyMMdd, yyyyMMddToDate } from '../util/day';
 import { dayToKorean } from '../util/dayToKorean';
 import './Home.css';
 
@@ -13,9 +13,7 @@ const Home: React.FC = () => {
 
   const page = useRef(undefined);
 
-  const now9HourAfter = new Date(new Date().setHours(new Date().getHours() + 9)); // 한국 시간
-
-  const todayyyyyMMdd = now9HourAfter.toISOString().slice(0, 10).replace(/-/g, '');
+  
 
   const [day, setDay] = useState<string>(todayyyyyMMdd);
   const [dayFar, setDayFar] = useState<string>('오늘');

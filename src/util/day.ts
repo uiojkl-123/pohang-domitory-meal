@@ -16,7 +16,7 @@ export const prevDayFromyyyyMMdd = (day: string) => {
     const dd = Number(day.substring(6, 8));
     const prevDay = new Date(yyyy, mm - 1, dd);
     prevDay.setDate(prevDay.getDate() - 1);
-    const prevDayStr =  format(prevDay, 'yyyyMMdd');
+    const prevDayStr = format(prevDay, 'yyyyMMdd');
     return prevDayStr;
 }
 
@@ -28,4 +28,8 @@ export const yyyyMMddToDate = (day: string) => {
     return date;
 }
 
+
+export const now9HourAfter = new Date(new Date().setHours(new Date().getHours() + 9)); // 한국 시간
+
+export const todayyyyyMMdd = now9HourAfter.toISOString().slice(0, 10).replace(/-/g, '');
 
