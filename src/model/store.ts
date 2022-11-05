@@ -7,4 +7,5 @@ interface MealsType {
 export interface MealStoreType {
     meals: MealsType
     getGlobalDayMeal: (day: string) => Promise<void>;
+    nowDay: string | undefined
 }

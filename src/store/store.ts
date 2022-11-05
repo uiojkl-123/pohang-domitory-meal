@@ -11,7 +11,8 @@ const store = (set: any): MealStoreType => ({
         const dailyMeal = await getDayMeal(day)
         if (!dailyMeal) { set((state: MealStoreType) => ({ meals: { ...state.meals, [day]: null } })); return }
         set((state: MealStoreType) => ({ meals: { ...state.meals, [day]: dailyMeal } }))
-    }
+    },
+    nowDay: undefined
 })
 
 /**

@@ -33,6 +33,10 @@ const Home: React.FC = () => {
   }, [])
 
   useEffect(() => {
+    useMealStore.setState({ nowDay: day });
+  }, [day])
+
+  useEffect(() => {
     const today = new Date()
     const dayDate = yyyyMMddToDate(day)
     const diff = Math.floor((today.getTime() - dayDate.getTime()) / (1000 * 60 * 60 * 24))
