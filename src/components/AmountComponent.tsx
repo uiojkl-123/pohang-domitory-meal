@@ -70,7 +70,7 @@ export const AmountComponent: React.FC<AmountComponentProps> = (props) => {
 
     const CheckedTime = () =>
         <div className="checkedAt">
-            {props.checkAt && format(props.checkAt, 'HH:mm a 확인')}
+            {props.checkAt && format(props.checkAt, 'HH:mm 확인')}
         </div>
 
     const NoticeButton = () =>
