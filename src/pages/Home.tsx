@@ -1,19 +1,21 @@
-import { DatetimeChangeEventDetail, IonButton, IonButtons, IonCard, IonContent, IonDatetime, IonDatetimeButton, IonFooter, IonHeader, IonItem, IonLabel, IonMenu, IonMenuButton, IonModal, IonPage, IonRippleEffect, IonRow, IonSlide, IonSlides, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
+import { DatetimeChangeEventDetail, IonButton, IonButtons, IonCard, IonContent, IonDatetime, IonDatetimeButton, IonFooter, IonHeader, IonItem, IonLabel, IonMenu, IonMenuButton, IonMenuToggle, IonModal, IonPage, IonRippleEffect, IonRow, IonSlide, IonSlides, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
 import { parseISO } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { Meal } from '../components/Meal';
+import { MealSkeleton } from '../components/MealSkeleton';
+import { PopularMeal } from '../components/PopularMeal';
 import { MealStoreType } from '../model/store';
 import { getDayMeal } from '../service/meal.service';
 import { useMealStore } from '../store/store';
 import { nextDayFromyyyyMMdd, prevDayFromyyyyMMdd, todayyyyyMMdd, yyyyMMddToDate } from '../util/day';
 import { dayToKorean } from '../util/dayToKorean';
-import './Home.css';
+import './Home.scss';
 
 const Home: React.FC = () => {
 
   const page = useRef(undefined);
 
-  
+
 
   const [day, setDay] = useState<string>(todayyyyyMMdd);
   const [dayFar, setDayFar] = useState<string>('오늘');
@@ -99,12 +101,8 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <IonMenu contentId="main-content">
-        <IonHeader mode='ios'>
-          <IonToolbar mode='ios'>
-            <IonTitle>메뉴</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+      <IonMenu contentId="main-content" >
+        <h1>메뉴</h1>
         <IonContent >
           <IonItem mode='ios' button lines='full' href='/upload'>
             <IonLabel>업로드 하기</IonLabel>
@@ -116,8 +114,8 @@ const Home: React.FC = () => {
         <IonFooter>
           <IonToolbar>
             <p className='footerDescription'>
-              문의 : aa187523@gmail.com<br/>
-              개발자 : ㅜㅂ랴ㅔㅍㅇ<br/>
+              문의 : aa187523@gmail.com<br />
+              개발자 : ㅜㅂ랴ㅔㅍㅇ<br />
               라이선스: MIT
             </p>
           </IonToolbar>
@@ -125,36 +123,43 @@ const Home: React.FC = () => {
       </IonMenu>
 
       <IonPage ref={page} id='main-content'>
-        <IonHeader mode='ios'>
-          <IonToolbar mode='ios'>
-            <IonButtons slot="start">
-              <IonMenuButton mode='ios'></IonMenuButton>
-            </IonButtons>
-            <IonTitle>포항학사 식단</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <div className='fullscreen'>
-          <div className='dayFar'>{dayFar}</div>
-          <div className='cardContainer'>
-            {meals[day] === undefined ? <IonSpinner></IonSpinner> : <Meal value={meals[day]} />}
-          </div>
-          <div className='toolbar'>
-
-            <div className='leftButton ion-activatable ripple-parent' onClick={goPrev}>
-              <img src='assets/leftButton.svg' />
-              <IonRippleEffect></IonRippleEffect>
-            </div>
-
-            <div className='day' onClick={() => setShowModal(true)} style={{ cursor: 'pointer' }}>{dayToKorean(day)}</div>
-
-            <div className='rightButton ion-activatable ripple-parent' onClick={goNext}>
-              <img src='assets/rightButton.svg' />
-              <IonRippleEffect></IonRippleEffect>
-            </div>
-
-          </div>
-
+        <div className="header">
+          <IonMenuToggle className='menuToggle'>
+            <img src="assets/menu-button.svg" alt="menuButton" />
+          </IonMenuToggle>
+          포항학사 식단
         </div>
+        <div className='container'>
+          <div className='day'>
+            <h1 className='dayFar'>{dayFar}</h1>
+            <h1 className='dayKorean'>{dayToKorean(day)}</h1>
+          </div>
+
+          <div className='toolbar'>
+            <div className="toolbarContainer ripple-parent">
+
+              <div className="buttons">
+                <div className='leftButton ion-activatable ' onClick={goPrev}>
+                  <img src='assets/leftArrow.svg' />
+                  <IonRippleEffect></IonRippleEffect>
+                </div>
+
+                <div className='daySelectButton ion-activatable' onClick={() => setShowModal(true)} style={{ cursor: 'pointer' }}>
+                  <img src="assets/calendar-outline 1.svg" alt="calendar" />
+                </div>
+
+                <div className='rightButton ion-activatable ' onClick={goNext}>
+                  <img src='assets/rightArrow.svg' />
+                  <IonRippleEffect></IonRippleEffect>
+                </div>
+              </div>
+            </div>
+          </div>
+          {meals[day] === undefined ? <MealSkeleton /> : <Meal value={meals[day]} />}
+          <PopularMeal />
+        </div>
+
+
 
         <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)} presentingElement={presentingElement}>
           <IonContent>

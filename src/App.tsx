@@ -24,6 +24,8 @@ import './theme/variables.css';
 import { Upload } from './pages/Upload';
 import { useEffect } from 'react';
 
+import './App.scss'
+
 setupIonicReact();
 
 const App: React.FC = () => {

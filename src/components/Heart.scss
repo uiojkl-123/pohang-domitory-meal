@@ -1,0 +1,39 @@
+.heart {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .fiiled {
+        animation: heartPop;
+        animation-duration: .3s;
+        animation-fill-mode: forwards;
+        animation-timing-function: ease;
+    }
+
+    @keyframes heartPop {
+        0% {
+            transform: scale(1);
+        }
+
+        60% {
+            transform: scale(1.2);
+        }
+
+        85% {
+            transform: scale(.95);
+        }
+
+        90% {
+            transform: scale(1.05);
+        }
+
+        95% {
+            transform: scale(.98);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+}

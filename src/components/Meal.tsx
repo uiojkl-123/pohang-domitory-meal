@@ -1,12 +1,14 @@
 import { IonAccordion, IonAccordionGroup, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonLabel, IonList, IonRippleEffect, IonText, IonTitle } from '@ionic/react';
+import { Timestamp } from 'firebase/firestore';
 import React from 'react';
 import { Amount } from '../model/amount';
 import { MealClass } from '../model/meal';
 import { subscribeAmounts } from '../service/amount.service';
 import { useMealStore } from '../store/store';
-import { now9HourAfter, todayyyyyMMdd } from '../util/day';
-import { AmountButtons } from './AmountButtons';
+import { todayyyyyMMdd, now9HourAfter } from '../util/day';
 import { AmountComponent } from './AmountComponent';
+import { Dot } from './Dot';
+import { Heart } from './Heart';
 import './Meal.scss';
 
 interface MealProps {
@@ -21,12 +23,15 @@ export const Meal: React.FC<MealProps> = (props) => {
     const [breakfastAmount, setBreakfastAmount] = React.useState<Amount>();
     const [dinnerAmount, setDinnerAmount] = React.useState<Amount>();
 
+    const [breakfastCheckAt, setBreakfastCheckAt] = React.useState<Date>();
+    const [dinnerCheckAt, setDinnerCheckAt] = React.useState<Date>();
+
     React.useEffect(() => {
         let breakfastAmountUnsubscribe: any;
         let dinnerAmountUnsubscribe: any;
         (async () => {
             if (!nowDay) return;
-            const [getBreakfastAmountUnsubscribe, getDinnerAmountUnsubscribe] = await subscribeAmounts(nowDay, setBreakfastAmount, setDinnerAmount);
+            const [getBreakfastAmountUnsubscribe, getDinnerAmountUnsubscribe] = await subscribeAmounts(nowDay, setBreakfastAmount, setDinnerAmount, setBreakfastCheckAt, setDinnerCheckAt);
             breakfastAmountUnsubscribe = getBreakfastAmountUnsubscribe;
             dinnerAmountUnsubscribe = getDinnerAmountUnsubscribe;
         })();
@@ -40,48 +45,47 @@ export const Meal: React.FC<MealProps> = (props) => {
 
     return (
         value ?
-            <div className="meal">
-                <div className='mealCard'>
+            <>
+                <div className='mealCard card'>
                     <div className='cardHeader'>
-                        <div>아침</div>
+                        <h2>아침</h2>
                     </div>
-                    <div className='cardContent'>
-                        {breakfastAmount && <div className='mealItem'>
-                            <AmountComponent amount={breakfastAmount} />
-                        </div>}
-                        {value.breakfast.map((value) => {
-                            return (
-                                <div className="mealItem" key={value}>
-                                    <div className="mealName">{value}</div>
+                    {value.breakfast.map((value) => {
+                        return (
+                            <div className="mealItem" key={value}>
+                                <div className="dotAndName">
+                                    <Dot color='light-gray' />
+                                    <div className="mealName">{value.replace(' |', ',')}</div>
                                 </div>
-                            )
-                        })}
-                        {(todayyyyyMMdd === nowDay) && now9HourAfter.getHours() > 7 && <AmountButtons breakfastOrDinner='breakfastAmount' day={nowDay}></AmountButtons>}
-                    </div>
+                                <Heart onClick={() => { }} />
+                            </div>
+                        )
+                    })}
+                    {(todayyyyyMMdd === nowDay) && new Date().getHours() >= 7 &&
+                        <AmountComponent amount={breakfastAmount} checkAt={breakfastCheckAt} breakfastOrDinner='breakfastAmount' />}
                 </div>
 
-                <div className='mealCard'>
+                <div className='mealCard card'>
                     <div className='cardHeader'>
-                        <div>저녁</div>
+                        <h2>저녁</h2>
                     </div>
-                    <div className='cardContent'>
-                        {dinnerAmount && <div className='mealItem'>
-                            <AmountComponent amount={dinnerAmount} />
-                        </div>}
-                        {value.dinner.map((value) => {
-                            return (
-                                <div className="mealItem" key={value}>
-                                    <div className="mealName">{value}</div>
+                    {value.dinner.map((value) => {
+                        return (
+                            <div className="mealItem" key={value}>
+                                <div className="dotAndName">
+                                    <Dot color='light-gray' />
+                                    <div className="mealName">{value.replace(' |', ',')}</div>
                                 </div>
-                            )
-                        })}
-                        {(todayyyyyMMdd === nowDay) && now9HourAfter.getHours() > 16 && <AmountButtons breakfastOrDinner='dinnerAmount' day={nowDay}></AmountButtons>}
-                    </div>
+                                <Heart onClick={() => { }} />
+                            </div>
+                        )
+                    })}
+                    {(todayyyyyMMdd === nowDay) && new Date().getHours() >= 16 &&
+                        < AmountComponent amount={dinnerAmount} checkAt={dinnerCheckAt} breakfastOrDinner='dinnerAmount' />}
                 </div>
-
-            </div >
+            </>
             :
-            <div className="nomeal">
+            <div className="nomeal card">
                 <h2>자료가 없습니다.</h2>
             </div>
     );
