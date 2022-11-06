@@ -19,6 +19,12 @@
             .mealName {
                 font-weight: 600;
                 font-size: 16px;
+
+                ion-skeleton-text {
+                    height: 12px;
+                    width: 80px;
+                    border-radius: 8px;
+                }
             }
         }
 

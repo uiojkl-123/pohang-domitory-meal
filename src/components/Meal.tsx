@@ -1,4 +1,4 @@
-import { IonAccordion, IonAccordionGroup, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonLabel, IonList, IonRippleEffect, IonText, IonTitle } from '@ionic/react';
+import { IonAccordion, IonAccordionGroup, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonLabel, IonList, IonRippleEffect, IonSkeletonText, IonText, IonTitle } from '@ionic/react';
 import { Timestamp } from 'firebase/firestore';
 import React from 'react';
 import { Amount } from '../model/amount';
@@ -36,26 +36,40 @@ export const Meal: React.FC<MealProps> = (props) => {
             dinnerAmountUnsubscribe = getDinnerAmountUnsubscribe;
         })();
         return () => {
-            breakfastAmountUnsubscribe();
-            dinnerAmountUnsubscribe();
+            // breakfastAmountUnsubscribe();
+            // dinnerAmountUnsubscribe();
             setBreakfastAmount(undefined);
             setDinnerAmount(undefined);
         }
     }, [nowDay])
 
     return (
-        value ?
+        value !== null ?
             <>
                 <div className='mealCard card'>
                     <div className='cardHeader'>
                         <h2>아침</h2>
                     </div>
-                    {value.breakfast.map((value) => {
+                    {value ? value!.breakfast.map((value) => {
                         return (
                             <div className="mealItem" key={value}>
                                 <div className="dotAndName">
                                     <Dot color='light-gray' />
-                                    <div className="mealName">{value.replace(' |', ',')}</div>
+                                    <div className="mealName">
+                                        {value.replace(' |', ',')}
+                                    </div>
+                                </div>
+                                <Heart onClick={() => { }} />
+                            </div>
+                        )
+                    }) : [...Array(3)].map((_, index) => {
+                        return (
+                            <div className="mealItem" key={index}>
+                                <div className="dotAndName">
+                                    <Dot color='light-gray' />
+                                    <div className="mealName">
+                                        <IonSkeletonText animated />
+                                    </div>
                                 </div>
                                 <Heart onClick={() => { }} />
                             </div>
@@ -69,12 +83,24 @@ export const Meal: React.FC<MealProps> = (props) => {
                     <div className='cardHeader'>
                         <h2>저녁</h2>
                     </div>
-                    {value.dinner.map((value) => {
+                    {value ? value.dinner.map((value) => {
                         return (
                             <div className="mealItem" key={value}>
                                 <div className="dotAndName">
                                     <Dot color='light-gray' />
                                     <div className="mealName">{value.replace(' |', ',')}</div>
+                                </div>
+                                <Heart onClick={() => { }} />
+                            </div>
+                        )
+                    }) : [...Array(3)].map((_, index) => {
+                        return (
+                            <div className="mealItem" key={index}>
+                                <div className="dotAndName">
+                                    <Dot color='light-gray' />
+                                    <div className="mealName">
+                                        <IonSkeletonText animated />
+                                    </div>
                                 </div>
                                 <Heart onClick={() => { }} />
                             </div>

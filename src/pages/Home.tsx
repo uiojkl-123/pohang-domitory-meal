@@ -2,7 +2,6 @@ import { DatetimeChangeEventDetail, IonButton, IonButtons, IonCard, IonContent, 
 import { parseISO } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { Meal } from '../components/Meal';
-import { MealSkeleton } from '../components/MealSkeleton';
 import { PopularMeal } from '../components/PopularMeal';
 import { MealStoreType } from '../model/store';
 import { getDayMeal } from '../service/meal.service';
@@ -155,7 +154,7 @@ const Home: React.FC = () => {
               </div>
             </div>
           </div>
-          {meals[day] === undefined ? <MealSkeleton /> : <Meal value={meals[day]} />}
+          {<Meal value={meals[day]} />}
           <PopularMeal />
         </div>
 
