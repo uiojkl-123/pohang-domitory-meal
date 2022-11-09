@@ -1,9 +1,12 @@
 import { DatetimeChangeEventDetail, IonButton, IonButtons, IonCard, IonContent, IonDatetime, IonDatetimeButton, IonFooter, IonHeader, IonItem, IonLabel, IonMenu, IonMenuButton, IonMenuToggle, IonModal, IonPage, IonRippleEffect, IonRow, IonSlide, IonSlides, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
 import { parseISO } from 'date-fns';
+import { httpsCallable } from 'firebase/functions';
 import { useEffect, useRef, useState } from 'react';
 import { Meal } from '../components/Meal';
 import { PopularMeal } from '../components/PopularMeal';
+import { WowButton } from '../components/WowButton';
 import { MealStoreType } from '../model/store';
+import { functions } from '../service/firebase';
 import { getDayMeal } from '../service/meal.service';
 import { useMealStore } from '../store/store';
 import { nextDayFromyyyyMMdd, prevDayFromyyyyMMdd, todayyyyyMMdd, yyyyMMddToDate } from '../util/day';
@@ -98,6 +101,11 @@ const Home: React.FC = () => {
   }
 
 
+
+  const w = async () => {
+    const k = httpsCallable(functions, 'rankRun');
+    await k();
+  }
   return (
     <>
       <IonMenu contentId="main-content" >
@@ -114,7 +122,7 @@ const Home: React.FC = () => {
           <IonToolbar>
             <p className='footerDescription'>
               문의 : aa187523@gmail.com<br />
-              개발자 : ㅜㅂ랴ㅔㅍㅇ<br />
+              밥사주기 : 010-9364-1875<br />
               라이선스: MIT
             </p>
           </IonToolbar>
@@ -128,6 +136,7 @@ const Home: React.FC = () => {
           </IonMenuToggle>
           포항학사 식단
         </div>
+        <WowButton onClick={w}>잇으어디브</WowButton>
         <div className='container'>
           <div className='day'>
             <h1 className='dayFar'>{dayFar}</h1>

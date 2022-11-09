@@ -1,19 +1,48 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { auth } from '../service/firebase';
+import { useMealStore } from '../store/store';
 import './Heart.scss';
 
 interface HeartProps {
-    onClick: () => Promise<void> | void;
+    onFill?: () => Promise<void> | void;
+    onUnfill?: () => Promise<void> | void;
+    likes?: { userId: string, likedMealIndex: string }[] | null;
+    likedMealIndex?: number;
 }
 
 export const Heart: React.FC<HeartProps> = (props) => {
 
-    const { onClick } = props;
+    const { nowDay } = useMealStore();
+
+    const { onFill, onUnfill, likes, likedMealIndex } = props;
 
     const [isFilled, setIsFilled] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
 
-    const handleClick = () => {
+
+    useEffect(() => {
+        if (likes) {
+            const isLiked = likes.some((like) => {
+                return like.userId === auth.currentUser?.uid && like.likedMealIndex === String(likedMealIndex);
+            })
+            setIsFilled(isLiked);
+        }
+    }, [likes, auth.currentUser, nowDay, likedMealIndex])
+
+    const handleClick = async () => {
+        if (loading) return;
+        setLoading(true);
+        if (isFilled) {
+            if (onUnfill) {
+                await onUnfill();
+            }
+        } else {
+            if (onFill) {
+                await onFill();
+            }
+        }
         setIsFilled(!isFilled);
-        onClick();
+        setLoading(false);
     }
 
     return (

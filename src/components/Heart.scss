@@ -1,5 +1,4 @@
 .heart {
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,7 +7,7 @@
         animation: heartPop;
         animation-duration: .3s;
         animation-fill-mode: forwards;
-        animation-timing-function: ease;
+        // animation-timing-function: ;
     }
 
     @keyframes heartPop {
@@ -21,7 +20,7 @@
         }
 
         85% {
-            transform: scale(.95);
+            transform: scale(.9);
         }
 
         90% {
@@ -29,7 +28,7 @@
         }
 
         95% {
-            transform: scale(.98);
+            transform: scale(.95);
         }
 
         100% {
