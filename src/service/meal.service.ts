@@ -1,7 +1,8 @@
 import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { httpsCallable } from "firebase/functions";
 import { BreakfastOrDinner } from "../model/amount";
 import { currentMonth } from "../util/dayUtils";
-import { db } from "./firebase";
+import { db, functions } from "./firebase";
 import { mealConverter } from "./firebaseConverter";
 
 /**
@@ -87,6 +88,16 @@ export const getPopularMeal = async () => {
             return result.sort((a, b) => b.like - a.like).slice(0, 3)
         }
         return null
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+
+export const runRankCall = async () => {
+    try {
+        const call = httpsCallable(functions, 'rankRun')
+        await call()
     } catch (e) {
         console.error(e)
     }

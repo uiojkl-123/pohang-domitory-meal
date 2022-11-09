@@ -100,12 +100,6 @@ const Home: React.FC = () => {
     }
   }
 
-
-
-  const w = async () => {
-    const k = httpsCallable(functions, 'rankRun');
-    await k();
-  }
   return (
     <>
       <IonMenu contentId="main-content" >
@@ -136,7 +130,6 @@ const Home: React.FC = () => {
           </IonMenuToggle>
           포항학사 식단
         </div>
-        <WowButton onClick={w}>잇으어디브</WowButton>
         <div className='container'>
           <div className='day'>
             <h1 className='dayFar'>{dayFar}</h1>

@@ -1,0 +1,30 @@
+[debug] [2022-11-09T03:37:22.005Z] ----------------------------------------------------------------------
+[debug] [2022-11-09T03:37:22.006Z] Command:       /Users/sinbeomgi/.nvm/versions/node/v18.7.0/bin/node /Users/sinbeomgi/.nvm/versions/node/v18.7.0/bin/firebase deploy --only hosting
+[debug] [2022-11-09T03:37:22.007Z] CLI Version:   11.16.0
+[debug] [2022-11-09T03:37:22.007Z] Platform:      darwin
+[debug] [2022-11-09T03:37:22.007Z] Node Version:  v18.7.0
+[debug] [2022-11-09T03:37:22.008Z] Time:          Wed Nov 09 2022 12:37:22 GMT+0900 (Korean Standard Time)
+[debug] [2022-11-09T03:37:22.008Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-11-09T03:37:22.046Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-11-09T03:37:22.046Z] > authorizing via signed-in user (aa187523@gmail.com)
+[debug] [2022-11-09T03:37:22.046Z] [iam] checking project pohang-domitory-meal for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2022-11-09T03:37:22.047Z] > refreshing access token with scopes: []
+[debug] [2022-11-09T03:37:22.048Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2022-11-09T03:37:22.048Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-11-09T03:37:22.610Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2022-11-09T03:37:22.611Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-11-09T03:37:22.623Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/pohang-domitory-meal:testIamPermissions [none]
+[debug] [2022-11-09T03:37:22.623Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/pohang-domitory-meal:testIamPermissions x-goog-quota-user=projects/pohang-domitory-meal
+[debug] [2022-11-09T03:37:22.623Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/pohang-domitory-meal:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2022-11-09T03:37:23.562Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/pohang-domitory-meal:testIamPermissions 200
+[debug] [2022-11-09T03:37:23.562Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/pohang-domitory-meal:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2022-11-09T03:37:23.563Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/pohang-domitory-meal [none]
+[debug] [2022-11-09T03:37:24.094Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/pohang-domitory-meal 200
+[debug] [2022-11-09T03:37:24.094Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/pohang-domitory-meal {"projectId":"pohang-domitory-meal","projectNumber":"707125005849","displayName":"pohang-domitory-meal","name":"projects/pohang-domitory-meal","resources":{"hostingSite":"pohang-domitory-meal","storageBucket":"pohang-domitory-meal.appspot.com","locationId":"asia-northeast3"},"state":"ACTIVE","etag":"1_8295fc61-501a-45cc-ac74-6e6d4ab936a3"}
+[info] 
+[info] === Deploying to 'pohang-domitory-meal'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2022-11-09T03:37:24.098Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pohang-domitory-meal/versions [none]
+[debug] [2022-11-09T03:37:24.098Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/pohang-domitory-meal/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}

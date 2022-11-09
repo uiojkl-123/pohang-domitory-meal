@@ -1,9 +1,9 @@
 import * as functions from "firebase-functions";
 import { rankScheduleFunc } from "./rankSchedule";
 
-export const everydayRankSchedule = functions
+export const everyHourRankSchedule = functions
     .region('asia-northeast3')
-    .pubsub.schedule('0 17 * * *')
+    .pubsub.schedule('every 1 hours')
     .timeZone("Asia/Seoul").onRun(async () => {
         try {
             await rankScheduleFunc();
