@@ -4,6 +4,8 @@
 
 포항학사 식단 사이트는 포항학사 식단을 제공하는 사이트입니다.
 
+[디자인 링크](https://www.figma.com/file/xecHSM84BCe75z0igTSn5P/%ED%8F%AC%ED%95%AD%ED%95%99%EC%82%AC-%EC%8B%9D%EB%8B%A8-%EC%97%90%EC%85%8B?node-id=0%3A1&t=uLhp55S0Ggmbki45-1)
+
 ## 사용법
 
 ### 1. 포항학사 식단 사이트 접속
