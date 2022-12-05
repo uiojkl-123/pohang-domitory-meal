@@ -17,7 +17,12 @@ export const PopularMeal: React.FC<PopularMealProps> = (props) => {
     React.useEffect(() => {
         (async () => {
             const getPopularMealRes = await getPopularMeal();
+            console.log(getPopularMealRes);
             if (getPopularMealRes) {
+                if (getPopularMealRes.length <= 0) {
+                    setRankLoading(false);
+                    return
+                }
                 setPopularMeal(getPopularMealRes);
             }
         })();
@@ -28,7 +33,7 @@ export const PopularMeal: React.FC<PopularMealProps> = (props) => {
         try {
             await runRankCall()
             const getPopularMealRes = await getPopularMeal();
-            if (getPopularMealRes) {
+            if (getPopularMealRes && getPopularMealRes.length > 0) {
                 setPopularMeal(getPopularMealRes);
             }
             setRankLoading(false);
@@ -53,51 +58,60 @@ export const PopularMeal: React.FC<PopularMealProps> = (props) => {
                 </div>
             </div>
 
-            <div className="popularMealItem 1">
-                <div className="rankAndName">
-                    <div className="rank rank1">1</div>
-                    {rankLoading || !popularMeal ?
-                        <IonSkeletonText animated />
-                        :
-                        <>
-                            <div className="name">{popularMeal[0].meal}</div>
-                            <div className="likes">
-                                {popularMeal[0].like}
-                            </div>
-                        </>
-                    }
+            {popularMeal && popularMeal[0].meal &&
+                <div className="popularMealItem 1">
+                    <div className="rankAndName">
+                        <div className="rank rank1">1</div>
+                        {rankLoading || !popularMeal ?
+                            <IonSkeletonText animated />
+                            :
+                            <>
+                                <div className="name">{popularMeal[0].meal}</div>
+                                <div className="likes">
+                                    {popularMeal[0].like}
+                                </div>
+                            </>
+                        }
+                    </div>
+                </div>}
+
+            {popularMeal && popularMeal[1].meal &&
+
+                <div className="popularMealItem 2">
+                    <div className="rankAndName">
+                        <div className="rank rank2">2</div>
+                        {rankLoading || !popularMeal ?
+                            <IonSkeletonText animated />
+                            :
+                            <>
+                                <div className="name">{popularMeal[1].meal}</div>
+                                <div className="likes">
+                                    {popularMeal[1].like}
+                                </div>
+                            </>
+                        }
+                    </div>
                 </div>
-            </div>
-            <div className="popularMealItem 2">
-                <div className="rankAndName">
-                    <div className="rank rank2">2</div>
-                    {rankLoading || !popularMeal ?
-                        <IonSkeletonText animated />
-                        :
-                        <>
-                            <div className="name">{popularMeal[1].meal}</div>
-                            <div className="likes">
-                                {popularMeal[1].like}
-                            </div>
-                        </>
-                    }
+            }
+
+            {popularMeal && popularMeal[2].meal &&
+
+                <div className="popularMealItem 3">
+                    <div className="rankAndName">
+                        <div className="rank rank3">3</div>
+                        {rankLoading || !popularMeal ?
+                            <IonSkeletonText animated />
+                            :
+                            <>
+                                <div className="name">{popularMeal[2].meal}</div>
+                                <div className="likes">
+                                    {popularMeal[2].like}
+                                </div>
+                            </>
+                        }
+                    </div>
                 </div>
-            </div>
-            <div className="popularMealItem 3">
-                <div className="rankAndName">
-                    <div className="rank rank3">3</div>
-                    {rankLoading || !popularMeal ?
-                        <IonSkeletonText animated />
-                        :
-                        <>
-                            <div className="name">{popularMeal[2].meal}</div>
-                            <div className="likes">
-                                {popularMeal[2].like}
-                            </div>
-                        </>
-                    }
-                </div>
-            </div>
+            }
         </div >
     );
 }
