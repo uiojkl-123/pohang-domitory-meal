@@ -15,9 +15,10 @@ import './Home.scss';
 
 const Home: React.FC = () => {
 
+
+  // 🪝 Hooks
+
   const page = useRef(undefined);
-
-
 
   const [day, setDay] = useState<string>(todayyyyyMMdd);
   const [dayFar, setDayFar] = useState<string>('오늘');
@@ -25,6 +26,8 @@ const Home: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   const { meals, getGlobalDayMeal } = useMealStore();
+
+  // 🔄 Life Cycle
 
   useEffect(() => {
     setPresentingElement(page.current);
@@ -59,8 +62,24 @@ const Home: React.FC = () => {
     }
   }, [day])
 
+
+  // ✋ Handlers
+
   const isMealExist = (day: string) => {
     return Object.keys(meals).includes(day)
+  }
+
+  const goNextOrPrev = async (nextOrPrev: 'next' | 'prev') => {
+    const goDay = nextOrPrev === 'next' ? nextDayFromyyyyMMdd(day) : prevDayFromyyyyMMdd(day)
+    if (!isMealExist(goDay)) {
+      const goDayMeal = await getDayMeal(goDay);
+      if (goDayMeal) {
+        useMealStore.setState((state: MealStoreType) => { return { meals: { ...state.meals, [goDay]: goDayMeal } } })
+      } else {
+        useMealStore.setState((state: MealStoreType) => { return { meals: { ...state.meals, [goDay]: null } } })
+      }
+    }
+    setDay(goDay)
   }
 
   const goNext = async () => {
@@ -71,7 +90,6 @@ const Home: React.FC = () => {
         useMealStore.setState((state: MealStoreType) => { return { meals: { ...state.meals, [nextDay]: nextDayMeal } } })
       } else {
         useMealStore.setState((state: MealStoreType) => { return { meals: { ...state.meals, [nextDay]: null } } })
-
       }
     }
     setDay(nextDay);
@@ -100,12 +118,6 @@ const Home: React.FC = () => {
     }
   }
 
-
-
-  const w = async () => {
-    const k = httpsCallable(functions, 'rankRun');
-    await k();
-  }
   return (
     <>
       <IonMenu contentId="main-content" >
@@ -136,7 +148,6 @@ const Home: React.FC = () => {
           </IonMenuToggle>
           포항학사 식단
         </div>
-        <WowButton onClick={w}>잇으어디브</WowButton>
         <div className='container'>
           <div className='day'>
             <h1 className='dayFar'>{dayFar}</h1>
@@ -147,7 +158,7 @@ const Home: React.FC = () => {
             <div className="toolbarContainer ripple-parent">
 
               <div className="buttons">
-                <div className='leftButton ion-activatable ' onClick={goPrev}>
+                <div className='leftButton ion-activatable ' onClick={async () => goNextOrPrev('prev')}>
                   <img src='assets/leftArrow.svg' />
                   <IonRippleEffect></IonRippleEffect>
                 </div>
@@ -156,7 +167,7 @@ const Home: React.FC = () => {
                   <img src="assets/calendar-outline 1.svg" alt="calendar" />
                 </div>
 
-                <div className='rightButton ion-activatable ' onClick={goNext}>
+                <div className='rightButton ion-activatable ' onClick={async () => goNextOrPrev('next')}>
                   <img src='assets/rightArrow.svg' />
                   <IonRippleEffect></IonRippleEffect>
                 </div>

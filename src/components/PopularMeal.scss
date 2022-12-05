@@ -44,10 +44,11 @@
         .rankAndName {
             display: flex;
             flex-direction: row;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             padding: 10px 10px 10px 0px;
             gap: 10px;
+            width: 100%;
 
             .rank {
                 width: 12px;
@@ -91,6 +92,12 @@
                 animation: heartPop;
                 animation-duration: .3s;
 
+            }
+
+            ion-skeleton-text {
+                height: 12px;
+                border-radius: 4px;
+                width: 80px;
             }
 
         }

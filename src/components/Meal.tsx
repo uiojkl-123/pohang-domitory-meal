@@ -57,8 +57,6 @@ export const Meal: React.FC<MealProps> = (props) => {
             setDinnerAmount(undefined);
             setBreakfastCheckAt(undefined);
             setDinnerCheckAt(undefined);
-
-            console.log('얘도 실행아님?');
         }
 
     }, [nowDay])
@@ -66,7 +64,7 @@ export const Meal: React.FC<MealProps> = (props) => {
     useEffect(() => {
         (async () => {
 
-            if (value && nowDay && auth.currentUser?.uid) {
+            if (value && nowDay) {
                 const getBreakFastLikesRes = await getMealLikeList(nowDay, 'breakfastAmount');
                 const getDinnerLikesRes = await getMealLikeList(nowDay, 'dinnerAmount');
                 if (getBreakFastLikesRes && mountRef.current) {
@@ -143,7 +141,7 @@ export const Meal: React.FC<MealProps> = (props) => {
                     <div className='cardHeader'>
                         <h2>아침</h2>
                     </div>
-                    {value && auth.currentUser && breakfastLikes ? value!.breakfast.map((value, index) => {
+                    {value && breakfastLikes ? value!.breakfast.map((value, index) => {
                         return (
                             <div className="mealItem" key={value}>
                                 <div className="dotAndName">
@@ -181,7 +179,7 @@ export const Meal: React.FC<MealProps> = (props) => {
                     <div className='cardHeader'>
                         <h2>저녁</h2>
                     </div>
-                    {value && auth.currentUser && dinnerLikes ? value.dinner.map((value, index) => {
+                    {value && dinnerLikes ? value.dinner.map((value, index) => {
                         return (
                             <div className="mealItem" key={value}>
                                 <div className="dotAndName">

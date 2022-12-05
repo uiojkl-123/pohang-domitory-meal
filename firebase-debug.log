@@ -1,0 +1,71 @@
+[debug] [2022-12-05T10:51:06.744Z] ----------------------------------------------------------------------
+[debug] [2022-12-05T10:51:06.745Z] Command:       /Users/sinbeomgi/.nvm/versions/node/v18.7.0/bin/node /Users/sinbeomgi/.nvm/versions/node/v18.7.0/bin/firebase deploy
+[debug] [2022-12-05T10:51:06.745Z] CLI Version:   11.16.1
+[debug] [2022-12-05T10:51:06.745Z] Platform:      darwin
+[debug] [2022-12-05T10:51:06.746Z] Node Version:  v18.7.0
+[debug] [2022-12-05T10:51:06.746Z] Time:          Mon Dec 05 2022 19:51:06 GMT+0900 (Korean Standard Time)
+[debug] [2022-12-05T10:51:06.746Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-12-05T10:51:06.779Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-12-05T10:51:06.779Z] > authorizing via signed-in user (aa187523@gmail.com)
+[debug] [2022-12-05T10:51:06.779Z] [iam] checking project pohang-domitory-meal for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2022-12-05T10:51:06.780Z] > refreshing access token with scopes: []
+[debug] [2022-12-05T10:51:06.781Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2022-12-05T10:51:06.781Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-12-05T10:51:12.271Z] ----------------------------------------------------------------------
+[debug] [2022-12-05T10:51:12.271Z] Command:       /Users/sinbeomgi/.nvm/versions/node/v18.7.0/bin/node /Users/sinbeomgi/.nvm/versions/node/v18.7.0/bin/firebase login
+[debug] [2022-12-05T10:51:12.272Z] CLI Version:   11.16.1
+[debug] [2022-12-05T10:51:12.272Z] Platform:      darwin
+[debug] [2022-12-05T10:51:12.272Z] Node Version:  v18.7.0
+[debug] [2022-12-05T10:51:12.273Z] Time:          Mon Dec 05 2022 19:51:12 GMT+0900 (Korean Standard Time)
+[debug] [2022-12-05T10:51:12.273Z] ----------------------------------------------------------------------
+[debug] 
+[info] Already logged in as aa187523@gmail.com
+[debug] [2022-12-05T10:51:22.333Z] Error: Timed out.
+    at Timeout._onTimeout (/Users/sinbeomgi/.nvm/versions/node/v18.7.0/lib/node_modules/firebase-tools/lib/utils.js:253:49)
+    at listOnTimeout (node:internal/timers:564:17)
+    at process.processTimers (node:internal/timers:507:7)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2022-12-05T10:51:34.980Z] ----------------------------------------------------------------------
+[debug] [2022-12-05T10:51:34.981Z] Command:       /Users/sinbeomgi/.nvm/versions/node/v18.7.0/bin/node /Users/sinbeomgi/.nvm/versions/node/v18.7.0/bin/firebase deploy
+[debug] [2022-12-05T10:51:34.981Z] CLI Version:   11.16.1
+[debug] [2022-12-05T10:51:34.981Z] Platform:      darwin
+[debug] [2022-12-05T10:51:34.981Z] Node Version:  v18.7.0
+[debug] [2022-12-05T10:51:34.982Z] Time:          Mon Dec 05 2022 19:51:34 GMT+0900 (Korean Standard Time)
+[debug] [2022-12-05T10:51:34.982Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-12-05T10:51:35.017Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-12-05T10:51:35.017Z] > authorizing via signed-in user (aa187523@gmail.com)
+[debug] [2022-12-05T10:51:35.017Z] [iam] checking project pohang-domitory-meal for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2022-12-05T10:51:35.018Z] > refreshing access token with scopes: []
+[debug] [2022-12-05T10:51:35.019Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2022-12-05T10:51:35.019Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-12-05T10:51:41.403Z] ----------------------------------------------------------------------
+[debug] [2022-12-05T10:51:41.404Z] Command:       /Users/sinbeomgi/.nvm/versions/node/v18.7.0/bin/node /Users/sinbeomgi/.nvm/versions/node/v18.7.0/bin/firebase deploy --only hosting
+[debug] [2022-12-05T10:51:41.404Z] CLI Version:   11.16.1
+[debug] [2022-12-05T10:51:41.404Z] Platform:      darwin
+[debug] [2022-12-05T10:51:41.404Z] Node Version:  v18.7.0
+[debug] [2022-12-05T10:51:41.405Z] Time:          Mon Dec 05 2022 19:51:41 GMT+0900 (Korean Standard Time)
+[debug] [2022-12-05T10:51:41.405Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-12-05T10:51:41.436Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-12-05T10:51:41.436Z] > authorizing via signed-in user (aa187523@gmail.com)
+[debug] [2022-12-05T10:51:41.436Z] [iam] checking project pohang-domitory-meal for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2022-12-05T10:51:41.437Z] > refreshing access token with scopes: []
+[debug] [2022-12-05T10:51:41.437Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2022-12-05T10:51:41.437Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-12-05T10:52:10.737Z] ----------------------------------------------------------------------
+[debug] [2022-12-05T10:52:10.738Z] Command:       /Users/sinbeomgi/.nvm/versions/node/v18.7.0/bin/node /Users/sinbeomgi/.nvm/versions/node/v18.7.0/bin/firebase deploy --only hosting
+[debug] [2022-12-05T10:52:10.739Z] CLI Version:   11.16.1
+[debug] [2022-12-05T10:52:10.739Z] Platform:      darwin
+[debug] [2022-12-05T10:52:10.739Z] Node Version:  v18.7.0
+[debug] [2022-12-05T10:52:10.739Z] Time:          Mon Dec 05 2022 19:52:10 GMT+0900 (Korean Standard Time)
+[debug] [2022-12-05T10:52:10.740Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-12-05T10:52:10.771Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-12-05T10:52:10.771Z] > authorizing via signed-in user (aa187523@gmail.com)
+[debug] [2022-12-05T10:52:10.771Z] [iam] checking project pohang-domitory-meal for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2022-12-05T10:52:10.772Z] > refreshing access token with scopes: []
+[debug] [2022-12-05T10:52:10.773Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2022-12-05T10:52:10.773Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
