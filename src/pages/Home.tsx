@@ -1,12 +1,8 @@
-import { DatetimeChangeEventDetail, IonButton, IonButtons, IonCard, IonContent, IonDatetime, IonDatetimeButton, IonFooter, IonHeader, IonItem, IonLabel, IonMenu, IonMenuButton, IonMenuToggle, IonModal, IonPage, IonRippleEffect, IonRow, IonSlide, IonSlides, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
-import { parseISO } from 'date-fns';
-import { httpsCallable } from 'firebase/functions';
+import { DatetimeChangeEventDetail, IonButton, IonContent, IonDatetime, IonFooter, IonHeader, IonItem, IonLabel, IonMenu, IonMenuToggle, IonModal, IonPage, IonRippleEffect, IonTitle, IonToolbar } from '@ionic/react';
 import { useEffect, useRef, useState } from 'react';
 import { Meal } from '../components/Meal';
 import { PopularMeal } from '../components/PopularMeal';
-import { WowButton } from '../components/WowButton';
 import { MealStoreType } from '../model/store';
-import { functions } from '../service/firebase';
 import { getDayMeal } from '../service/meal.service';
 import { useMealStore } from '../store/store';
 import { nextDayFromyyyyMMdd, prevDayFromyyyyMMdd, todayyyyyMMdd, yyyyMMddToDate } from '../util/day';
@@ -19,7 +15,6 @@ const Home: React.FC = () => {
   // 🪝 Hooks
 
   const page = useRef(undefined);
-
   const [day, setDay] = useState<string>(todayyyyyMMdd);
   const [dayFar, setDayFar] = useState<string>('오늘');
   const [presentingElement, setPresentingElement] = useState<HTMLElement | undefined>(undefined);
@@ -27,6 +22,7 @@ const Home: React.FC = () => {
 
   const { meals, getGlobalDayMeal } = useMealStore();
 
+  
   // 🔄 Life Cycle
 
   useEffect(() => {
@@ -80,32 +76,6 @@ const Home: React.FC = () => {
       }
     }
     setDay(goDay)
-  }
-
-  const goNext = async () => {
-    const nextDay = nextDayFromyyyyMMdd(day);
-    if (!isMealExist(nextDay)) {
-      const nextDayMeal = await getDayMeal(nextDay);
-      if (nextDayMeal) {
-        useMealStore.setState((state: MealStoreType) => { return { meals: { ...state.meals, [nextDay]: nextDayMeal } } })
-      } else {
-        useMealStore.setState((state: MealStoreType) => { return { meals: { ...state.meals, [nextDay]: null } } })
-      }
-    }
-    setDay(nextDay);
-  }
-
-  const goPrev = async () => {
-    const prevDay = prevDayFromyyyyMMdd(day);
-    if (!isMealExist(prevDay)) {
-      const prevDayMeal = await getDayMeal(prevDay);
-      if (prevDayMeal) {
-        useMealStore.setState((state: MealStoreType) => { return { meals: { ...state.meals, [prevDay]: prevDayMeal } } })
-      } else {
-        useMealStore.setState((state: MealStoreType) => { return { meals: { ...state.meals, [prevDay]: null } } })
-      }
-    }
-    setDay(prevDay);
   }
 
   const handleSelectDay = (e: CustomEvent<DatetimeChangeEventDetail>) => {

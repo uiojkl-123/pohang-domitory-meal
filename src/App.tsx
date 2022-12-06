@@ -25,10 +25,19 @@ import { Upload } from './pages/Upload';
 import { useEffect } from 'react';
 
 import './App.scss'
+import { signInAnonymously } from 'firebase/auth';
+import { auth } from './service/firebase';
 
 setupIonicReact();
 
 const App: React.FC = () => {
+
+  useEffect(() => {
+    (async () => {
+      await signInAnonymously(auth)
+    })()
+  }, [])
+
   return (
     <IonApp>
       <IonReactRouter>
