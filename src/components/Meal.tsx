@@ -149,11 +149,10 @@ export const Meal: React.FC<MealProps> = (props) => {
                                     <div className="mealName">
                                         {value.replace(' |', ',')}
                                     </div>
-                                    {breakfastLikes.filter((v) => (v.likedMealIndex === String(index)) && (v.userId === auth.currentUser?.uid)).length ?
+                                    {breakfastLikes.filter(v => (v.likedMealIndex === String(index))).length > 0 ?
                                         <div className="likes">
-                                            {breakfastLikes.filter((v) => (v.likedMealIndex === String(index)) && (v.userId === auth.currentUser?.uid)).length}
-                                        </div>
-                                        : null}
+                                            {breakfastLikes.filter(v => (v.likedMealIndex === String(index))).length}
+                                        </div> : null}
                                 </div>
                                 <Heart likes={breakfastLikes} likedMealIndex={index} onFill={async () => handleOnFill(index, 'breakfastAmount')} onUnfill={async () => handleOnUnfill(index, 'breakfastAmount')} />
                             </div>
@@ -185,11 +184,10 @@ export const Meal: React.FC<MealProps> = (props) => {
                                 <div className="dotAndName">
                                     <Dot color='light-gray' />
                                     <div className="mealName">{value.replace(' |', ',')}</div>
-                                    {dinnerLikes.filter((v) => (v.likedMealIndex === String(index)) && (v.userId === auth.currentUser?.uid)).length ?
+                                    {dinnerLikes.filter(v => (v.likedMealIndex === String(index))).length > 0 ?
                                         <div className="likes">
-                                            {dinnerLikes.filter((v) => (v.likedMealIndex === String(index)) && (v.userId === auth.currentUser?.uid)).length}
-                                        </div>
-                                        : null}
+                                            {dinnerLikes.filter(v => (v.likedMealIndex === String(index))).length}
+                                        </div> : null}
                                 </div>
                                 <Heart likes={dinnerLikes} likedMealIndex={index} onFill={async () => handleOnFill(index, 'dinnerAmount')} onUnfill={async () => handleOnUnfill(index, 'dinnerAmount')} />
                             </div>
