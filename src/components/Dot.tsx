@@ -1,15 +1,20 @@
 import React from 'react';
+import { Color } from '../model/color';
 import './Dot.scss';
 
+
 interface DotProps {
-    color:
-    'light-red'
-    | 'light-orange'
-    | 'light-green'
-    | 'light-blue'
-    | 'light-gray'
+    /**
+     * 색상
+     */
+    color: Color
 }
 
+/**
+ * **점을 표시하는 컴포넌트**
+ * 
+ * 색상 지정 가능
+ */
 export const Dot: React.FC<DotProps> = (props) => {
 
     return (

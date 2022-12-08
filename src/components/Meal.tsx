@@ -1,85 +1,41 @@
 import { IonAccordion, IonAccordionGroup, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonLabel, IonList, IonRippleEffect, IonSkeletonText, IonText, IonTitle } from '@ionic/react';
 import { DocumentData, Timestamp } from 'firebase/firestore';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useErrorPresent } from '../hooks/useErrorPresent';
+import { useGetNowDayLikes } from '../hooks/useGetNowDayLikes';
+import { useGetNowDayMealAmount } from '../hooks/useGetNowDayMealAmount';
 import { Amount, BreakfastOrDinner } from '../model/amount';
+import { Likes } from '../model/like';
 import { MealClass } from '../model/meal';
 import { subscribeAmounts } from '../service/amount.service';
 import { auth } from '../service/firebase';
-import { likeMeal, mealLikeList as getMealLikeList, unlikeMeal } from '../service/meal.service';
+import { likeMeal, unlikeMeal } from '../service/meal.service';
 import { useMealStore } from '../store/store';
 import { todayyyyyMMdd, now9HourAfter } from '../util/day';
 import { AmountComponent } from './AmountComponent';
 import { Dot } from './Dot';
 import { Heart } from './Heart';
+import { HeartSkeleton } from './HeartSkeleton';
 import './Meal.scss';
+import { MealItem } from './MealItem';
 
 interface MealProps {
     value: MealClass | null
 }
 
 export const Meal: React.FC<MealProps> = (props) => {
+
     const { value } = props;
-
     const { nowDay } = useMealStore();
-
-    const [breakfastAmount, setBreakfastAmount] = React.useState<Amount>();
-    const [dinnerAmount, setDinnerAmount] = React.useState<Amount>();
-
-    const [breakfastCheckAt, setBreakfastCheckAt] = React.useState<Date>();
-    const [dinnerCheckAt, setDinnerCheckAt] = React.useState<Date>();
-
-    const [breakfastLikes, setBreakfastLikes] = React.useState<{
-        userId: string;
-        likedMealIndex: string;
-    }[] | null>([])
-    const [dinnerLikes, setDinnerLikes] = React.useState<{
-        userId: string;
-        likedMealIndex: string;
-    }[] | null>([])
-
-    const mountRef = React.useRef(true);
+    const mountRef = useRef(true);
+    const [presentError, dismissPresent] = useErrorPresent()
 
 
-    React.useEffect(() => {
-        let breakfastAmountUnsubscribe: any;
-        let dinnerAmountUnsubscribe: any;
-        (async () => {
-            if (!nowDay) return;
-            const [getBreakfastAmountUnsubscribe, getDinnerAmountUnsubscribe] = await subscribeAmounts(nowDay, setBreakfastAmount, setDinnerAmount, setBreakfastCheckAt, setDinnerCheckAt);
-            breakfastAmountUnsubscribe = getBreakfastAmountUnsubscribe;
-            dinnerAmountUnsubscribe = getDinnerAmountUnsubscribe;
-        })();
+    // Get amounts (Subscribe)
+    const { breakfastAmount, dinnerAmount, breakfastCheckAt, dinnerCheckAt } = useGetNowDayMealAmount();
 
-        return () => {
-            // breakfastAmountUnsubscribe();
-            // dinnerAmountUnsubscribe();
-            setBreakfastAmount(undefined);
-            setDinnerAmount(undefined);
-            setBreakfastCheckAt(undefined);
-            setDinnerCheckAt(undefined);
-        }
-
-    }, [nowDay])
-
-    useEffect(() => {
-        (async () => {
-
-            if (value && nowDay) {
-                const getBreakFastLikesRes = await getMealLikeList(nowDay, 'breakfastAmount');
-                const getDinnerLikesRes = await getMealLikeList(nowDay, 'dinnerAmount');
-                if (getBreakFastLikesRes && mountRef.current) {
-                    setBreakfastLikes(getBreakFastLikesRes);
-                }
-                if (getDinnerLikesRes && mountRef.current) {
-                    setDinnerLikes(getDinnerLikesRes);
-                }
-            }
-        })()
-        return () => {
-            setBreakfastLikes([]);
-            setDinnerLikes([]);
-        }
-    }, [nowDay, auth.currentUser])
+    // Get likes (Snapshot)
+    const { breakfastLikes, dinnerLikes, setBreakfastLikes, setDinnerLikes } = useGetNowDayLikes(mountRef.current);
 
     useEffect(() => {
         return () => {
@@ -87,52 +43,41 @@ export const Meal: React.FC<MealProps> = (props) => {
         }
     }, [])
 
-    const handleOnFill = async (mealIndex: number, breakfastOrDinner: BreakfastOrDinner) => {
+
+    // Handle like
+
+    const handleOnHeartClick = async (mealIndex: number, breakfastOrDinner: BreakfastOrDinner, isFill: boolean) => {
         if (!nowDay) return;
         const user = auth.currentUser;
         if (!user?.uid) return;
-        await likeMeal(nowDay, mealIndex, user.uid, breakfastOrDinner);
-        if (breakfastOrDinner === 'breakfastAmount') {
-            setBreakfastLikes((prev) => {
-                if (!prev) return prev;
-                return [...prev, {
-                    userId: user.uid,
-                    likedMealIndex: String(mealIndex)
-                }]
-            }
-            )
-        } else {
-            setDinnerLikes((prev) => {
-                if (!prev) return prev;
-                return [...prev, {
-                    userId: user.uid,
-                    likedMealIndex: String(mealIndex)
-                }]
-            }
-            )
+        const likeOrUnlike = isFill ? likeMeal : unlikeMeal;
+        try {
+            await likeOrUnlike(nowDay, mealIndex, user.uid, breakfastOrDinner);
+        } catch (e) {
+            console.error(e);
+            presentError('오류', '좋아요 설정 도중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
         }
+        const setMeal = breakfastOrDinner === 'breakfastAmount' ? setBreakfastLikes : setDinnerLikes;
+        setMeal((prev) => {
+            if (!prev) return prev;
+            return prev.filter((like) => !(like.userId === user.uid && like.likedMealIndex === String(mealIndex)))
+        })
     }
 
-    const handleOnUnfill = async (mealIndex: number, breakfastOrDinner: BreakfastOrDinner) => {
-        if (!nowDay) return;
-        const user = auth.currentUser;
-        if (!user?.uid) return;
-        await unlikeMeal(nowDay, mealIndex, user.uid, breakfastOrDinner);
-        if (breakfastOrDinner === 'breakfastAmount') {
-            setBreakfastLikes((prev) => {
-                if (!prev) return prev;
-                return prev.filter((like) => !(like.userId === user.uid && like.likedMealIndex === String(mealIndex)))
-
-            }
+    const MealSkeletion = () =>
+        <>{[...Array(3)].map((_, index) => {
+            return (
+                <div className="mealItem" key={index}>
+                    <div className="dotAndName">
+                        <Dot color='light-gray' />
+                        <div className="mealName">
+                            <IonSkeletonText animated />
+                        </div>
+                    </div>
+                    <HeartSkeleton />
+                </div>
             )
-        } else {
-            setDinnerLikes((prev) => {
-                if (!prev) return prev;
-                return prev.filter((like) => !(like.userId === user.uid && like.likedMealIndex === String(mealIndex)))
-            }
-            )
-        }
-    }
+        })}</>
 
     return (
         value !== null ?
@@ -141,35 +86,17 @@ export const Meal: React.FC<MealProps> = (props) => {
                     <div className='cardHeader'>
                         <h2>아침</h2>
                     </div>
-                    {value && breakfastLikes ? value!.breakfast.map((value, index) => {
+                    {value && breakfastLikes ? value!.breakfast.map((menu, index) => {
                         return (
-                            <div className="mealItem" key={value}>
-                                <div className="dotAndName">
-                                    <Dot color='light-gray' />
-                                    <div className="mealName">
-                                        {value.replace(' |', ',')}
-                                    </div>
-                                    {breakfastLikes.filter(v => (v.likedMealIndex === String(index))).length > 0 ?
-                                        <div className="likes">
-                                            {breakfastLikes.filter(v => (v.likedMealIndex === String(index))).length}
-                                        </div> : null}
-                                </div>
-                                <Heart likes={breakfastLikes} likedMealIndex={index} onFill={async () => handleOnFill(index, 'breakfastAmount')} onUnfill={async () => handleOnUnfill(index, 'breakfastAmount')} />
-                            </div>
+                            <MealItem
+                                likes={breakfastLikes}
+                                menu={menu}
+                                index={index}
+                                onHeartChange={handleOnHeartClick}
+                                breakfastOrDinner={'breakfastAmount'}
+                            />
                         )
-                    }) : [...Array(3)].map((_, index) => {
-                        return (
-                            <div className="mealItem" key={index}>
-                                <div className="dotAndName">
-                                    <Dot color='light-gray' />
-                                    <div className="mealName">
-                                        <IonSkeletonText animated />
-                                    </div>
-                                </div>
-                                <Heart />
-                            </div>
-                        )
-                    })}
+                    }) : <MealSkeletion />}
                     {(todayyyyyMMdd === nowDay) && new Date().getHours() >= 7 &&
                         <AmountComponent amount={breakfastAmount} checkAt={breakfastCheckAt} breakfastOrDinner='breakfastAmount' />}
                 </div>
@@ -178,33 +105,17 @@ export const Meal: React.FC<MealProps> = (props) => {
                     <div className='cardHeader'>
                         <h2>저녁</h2>
                     </div>
-                    {value && dinnerLikes ? value.dinner.map((value, index) => {
+                    {value && dinnerLikes ? value.dinner.map((menu, index) => {
                         return (
-                            <div className="mealItem" key={value}>
-                                <div className="dotAndName">
-                                    <Dot color='light-gray' />
-                                    <div className="mealName">{value.replace(' |', ',')}</div>
-                                    {dinnerLikes.filter(v => (v.likedMealIndex === String(index))).length > 0 ?
-                                        <div className="likes">
-                                            {dinnerLikes.filter(v => (v.likedMealIndex === String(index))).length}
-                                        </div> : null}
-                                </div>
-                                <Heart likes={dinnerLikes} likedMealIndex={index} onFill={async () => handleOnFill(index, 'dinnerAmount')} onUnfill={async () => handleOnUnfill(index, 'dinnerAmount')} />
-                            </div>
+                            <MealItem
+                                likes={dinnerLikes}
+                                menu={menu}
+                                index={index}
+                                onHeartChange={handleOnHeartClick}
+                                breakfastOrDinner={'dinnerAmount'}
+                            />
                         )
-                    }) : [...Array(3)].map((_, index) => {
-                        return (
-                            <div className="mealItem" key={index}>
-                                <div className="dotAndName">
-                                    <Dot color='light-gray' />
-                                    <div className="mealName">
-                                        <IonSkeletonText animated />
-                                    </div>
-                                </div>
-                                <Heart />
-                            </div>
-                        )
-                    })}
+                    }) : <MealSkeletion />}
                     {(todayyyyyMMdd === nowDay) && new Date().getHours() >= 16 &&
                         < AmountComponent amount={dinnerAmount} checkAt={dinnerCheckAt} breakfastOrDinner='dinnerAmount' />}
                 </div>

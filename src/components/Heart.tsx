@@ -3,12 +3,14 @@ import { auth } from '../service/firebase';
 import { useMealStore } from '../store/store';
 import './Heart.scss';
 
-interface HeartProps {
-    onFill?: () => Promise<void> | void;
-    onUnfill?: () => Promise<void> | void;
+type HeartProps = {
+    onFill: () => Promise<void>;
+    onUnfill: () => Promise<void>;
     likes?: { userId: string, likedMealIndex: string }[] | null;
     likedMealIndex?: number;
 }
+
+
 
 export const Heart: React.FC<HeartProps> = (props) => {
 
@@ -32,15 +34,9 @@ export const Heart: React.FC<HeartProps> = (props) => {
     const handleClick = async () => {
         if (loading) return;
         setLoading(true);
-        if (isFilled) {
-            if (onUnfill) {
-                await onUnfill();
-            }
-        } else {
-            if (onFill) {
-                await onFill();
-            }
-        }
+        const fillOrUnfill = isFilled ? onUnfill : onFill;
+        await fillOrUnfill?.();
+
         setIsFilled(!isFilled);
         setLoading(false);
     }

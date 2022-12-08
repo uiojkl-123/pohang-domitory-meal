@@ -9,7 +9,11 @@ interface UploadProps {
 
 }
 
-export const Upload: React.FC<UploadProps> = (props) => {
+
+/**
+ * **식단 업로드 페이지**
+ */
+export const Upload: React.FC<UploadProps> = () => {
 
     const [present, dismiss] = useIonAlert()
     const [loading, setLoading] = useState(false);
@@ -26,6 +30,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
 
     const history = useHistory();
 
+    
     const checkPassword = async (password: string) => {
         setLoading(true);
         await dismiss();
@@ -80,15 +85,15 @@ export const Upload: React.FC<UploadProps> = (props) => {
 
     const convert = async (e: any) => {
         setSheetLoading(true)
-        var input = e.target;
-        var reader = new FileReader();
+        const input = e.target;
+        const reader = new FileReader();
         reader.onload = async function () {
-            var fileData = reader.result;
-            var wb = XLSX.read(fileData, { type: 'binary' });
-            var sheetNameList = wb.SheetNames; // 시트 이름 목록 가져오기
-            var firstSheetName = sheetNameList[0]; // 첫번째 시트명
+            const fileData = reader.result;
+            const wb = XLSX.read(fileData, { type: 'binary' });
+            const sheetNameList = wb.SheetNames; // 시트 이름 목록 가져오기
+            const firstSheetName = sheetNameList[0]; // 첫번째 시트명
             setFileName(firstSheetName);
-            var firstSheet = wb.Sheets[firstSheetName]; // 첫번째 시트
+            const firstSheet = wb.Sheets[firstSheetName]; // 첫번째 시트
             const csv = XLSX.utils.sheet_to_csv(firstSheet);
             const forUpload = csv.split("\n").map(function (row) { return row.split(","); })
             setArrayForUpload(forUpload)

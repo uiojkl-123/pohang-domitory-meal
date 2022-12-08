@@ -4,6 +4,7 @@ import { devtools } from 'zustand/middleware'
 import { MealClass } from '../model/meal';
 import { MealStoreType } from '../model/store';
 import { getDayMeal } from '../service/meal.service';
+import { todayyyyyMMdd } from '../util/day';
 
 const store = (set: any): MealStoreType => ({
     meals: {},
@@ -12,7 +13,8 @@ const store = (set: any): MealStoreType => ({
         if (!dailyMeal) { set((state: MealStoreType) => ({ meals: { ...state.meals, [day]: null } })); return }
         set((state: MealStoreType) => ({ meals: { ...state.meals, [day]: dailyMeal } }))
     },
-    nowDay: undefined
+    nowDay: todayyyyyMMdd,
+    setNowDay: (day: string) => set((state: MealStoreType) => ({ nowDay: day })),
 })
 
 /**

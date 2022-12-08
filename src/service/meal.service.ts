@@ -9,14 +9,20 @@ import { mealConverter } from "./firebaseConverter";
  * **하루 식단을 가져오는 함수**
  *
  * @param {string} day - 날짜 yyyyMMdd
+ * @throws {Error} - 에러 발생 시 에러를 throw 한다.
  */
 export const getDayMeal = async (day: string) => {
     const dayRef = doc(db, "meals", day).withConverter(mealConverter);
-    const daySnap = await getDoc(dayRef);
-    if (daySnap.exists()) {
-        return daySnap.data();
+    try {
+        const daySnap = await getDoc(dayRef);
+        if (daySnap.exists()) {
+            return daySnap.data();
+        }
+        return null;
+    } catch (e) {
+        console.error(e);
+        throw e
     }
-    return null;
 }
 
 /**
@@ -35,7 +41,12 @@ export const getDayMeal = async (day: string) => {
 export const likeMeal = async (day: string, mealIndex: number, userId: string, breakfastOrDinner: BreakfastOrDinner) => {
     const dayRef = doc(db, "meals", day).withConverter(mealConverter);
     const breakfastOrDinnerLike = breakfastOrDinner === 'breakfastAmount' ? 'breakfastLike' : 'dinnerLike'
-    await setDoc(doc(dayRef, breakfastOrDinnerLike, userId + mealIndex), { like: day + '-' + breakfastOrDinnerLike + '-' + mealIndex })
+    try {
+        await setDoc(doc(dayRef, breakfastOrDinnerLike, userId + mealIndex), { like: day + '-' + breakfastOrDinnerLike + '-' + mealIndex })
+    } catch (e) {
+        console.error(e)
+        throw e
+    }
 }
 
 /**
@@ -49,7 +60,12 @@ export const likeMeal = async (day: string, mealIndex: number, userId: string, b
 export const unlikeMeal = async (day: string, mealIndex: number, userId: string, breakfastOrDinner: BreakfastOrDinner) => {
     const dayRef = doc(db, "meals", day).withConverter(mealConverter);
     const breakfastOrDinnerLike = breakfastOrDinner === 'breakfastAmount' ? 'breakfastLike' : 'dinnerLike'
-    await deleteDoc(doc(dayRef, breakfastOrDinnerLike, userId + mealIndex))
+    try {
+        await deleteDoc(doc(dayRef, breakfastOrDinnerLike, userId + mealIndex))
+    } catch (e) {
+        console.error(e)
+        throw e
+    }
 }
 
 export const mealLikeList = async (day: string, breakfastOrDinner: BreakfastOrDinner) => {
@@ -67,6 +83,7 @@ export const mealLikeList = async (day: string, breakfastOrDinner: BreakfastOrDi
         return null
     } catch (e) {
         console.error(e)
+        throw e
     }
 }
 
@@ -88,6 +105,7 @@ export const getPopularMeal = async () => {
         return null
     } catch (e) {
         console.error(e)
+        throw e
     }
 }
 
@@ -98,5 +116,6 @@ export const runRankCall = async () => {
         await call()
     } catch (e) {
         console.error(e)
+        throw e
     }
 }

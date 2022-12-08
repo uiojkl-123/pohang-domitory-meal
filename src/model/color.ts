@@ -1,0 +1,5 @@
+export type Color = 'light-red'
+    | 'light-orange'
+    | 'light-green'
+    | 'light-blue'
+    | 'light-gray'

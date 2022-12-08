@@ -33,3 +33,9 @@ export const now9HourAfter = new Date(new Date().setHours(new Date().getHours() 
 
 export const todayyyyyMMdd = now9HourAfter.toISOString().slice(0, 10).replace(/-/g, '');
 
+export const dayDiffFromToday = (day: string) => {
+    const today = new Date()
+    const dayDate = yyyyMMddToDate(day)
+    const diff = Math.floor((today.getTime() - dayDate.getTime()) / (1000 * 60 * 60 * 24))
+    return diff
+}

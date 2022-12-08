@@ -26,7 +26,12 @@ export const convertAndUploadMeal = async (meal2DArray: string[][]) => {
             breakfast: daily.slice(1, 4).filter((item) => item !== ''),
             dinner: daily.slice(4).filter((item) => item !== '')
         }
+        try{
         await uploadMeal(date, meal)
+        } catch (error: any) {
+            console.error(error)
+            throw error as string
+        }
     })
 
 }
