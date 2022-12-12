@@ -1,0 +1,73 @@
+.amountComponent {
+    // height: 40px;
+    margin-top: 12px;
+    padding: 0px calc(1vw + .3rem) !important;
+    flex-wrap: wrap;
+
+    .dotAndType {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0px 3px 0px 0px;
+        column-gap: 10px;
+        width: fit-content;
+
+
+        .label {
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 17px;
+        }
+
+        .checkedAt {
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--gray);
+        }
+    }
+
+    .noticeButton {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 15px;
+        color: var(--button-text-color);
+        padding: 12px 0px;
+        word-break: keep-all;
+        // width: 100%;
+        text-align: center;
+    }
+
+}
+
+ion-alert {
+    span {
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .full {
+        span {
+            color: var(--light-blue);
+        }
+    }
+
+    .medium {
+        span {
+            color: var(--light-green);
+        }
+    }
+
+    .low {
+        span {
+            color: var(--light-orange);
+        }
+    }
+
+    .none {
+        span {
+            color: var(--light-red);
+        }
+    }
+
+}
