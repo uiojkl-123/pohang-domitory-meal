@@ -1,7 +1,0 @@
-{
-  "name": "pohang-domitory-meal",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react"
-}
