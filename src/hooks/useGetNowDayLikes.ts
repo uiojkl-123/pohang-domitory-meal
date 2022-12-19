@@ -21,14 +21,7 @@ export const useGetNowDayLikes = (isMount: boolean) => {
             if (nowDay) {
                 ['breakfastAmount' as BreakfastOrDinner, 'dinnerAmount' as BreakfastOrDinner].forEach(async (breakfastOrDinner: BreakfastOrDinner) => {
                     try {
-                        const getLikesRes = await getMealLikeList(nowDay, breakfastOrDinner);
-                        if (getLikesRes && isMount) {
-                            if (breakfastOrDinner === 'breakfastAmount') {
-                                setBreakfastLikes(getLikesRes);
-                            } else {
-                                setDinnerLikes(getLikesRes);
-                            }
-                        }
+                        await getLikes(breakfastOrDinner)
                     } catch (e) {
                         console.error(e);
                         presentError('오류', '식단을 불러오는 도중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.')
@@ -42,5 +35,16 @@ export const useGetNowDayLikes = (isMount: boolean) => {
         }
     }, [nowDay, auth.currentUser])
 
-    return { breakfastLikes, dinnerLikes, setBreakfastLikes, setDinnerLikes };
+    const getLikes = async (breakfastOrDinner: BreakfastOrDinner) => {
+        const getLikesRes = await getMealLikeList(nowDay, breakfastOrDinner);
+        if (getLikesRes && isMount) {
+            if (breakfastOrDinner === 'breakfastAmount') {
+                setBreakfastLikes(getLikesRes);
+            } else {
+                setDinnerLikes(getLikesRes);
+            }
+        }
+    }
+
+    return { breakfastLikes, dinnerLikes, setBreakfastLikes, setDinnerLikes, getLikes };
 }
