@@ -35,7 +35,7 @@ export const Meal: React.FC<MealProps> = (props) => {
     const { breakfastAmount, dinnerAmount, breakfastCheckAt, dinnerCheckAt } = useGetNowDayMealAmount();
 
     // Get likes (Snapshot)
-    const { breakfastLikes, dinnerLikes, setBreakfastLikes, setDinnerLikes } = useGetNowDayLikes(mountRef.current);
+    const { breakfastLikes, dinnerLikes, setBreakfastLikes, setDinnerLikes, getLikes } = useGetNowDayLikes(mountRef.current);
 
     useEffect(() => {
         return () => {
@@ -53,15 +53,11 @@ export const Meal: React.FC<MealProps> = (props) => {
         const likeOrUnlike = isFill ? likeMeal : unlikeMeal;
         try {
             await likeOrUnlike(nowDay, mealIndex, user.uid, breakfastOrDinner);
+            await getLikes(breakfastOrDinner);
         } catch (e) {
             console.error(e);
             presentError('오류', '좋아요 설정 도중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
         }
-        const setMeal = breakfastOrDinner === 'breakfastAmount' ? setBreakfastLikes : setDinnerLikes;
-        setMeal((prev) => {
-            if (!prev) return prev;
-            return prev.filter((like) => !(like.userId === user.uid && like.likedMealIndex === String(mealIndex)))
-        })
     }
 
     const MealSkeletion = () =>
@@ -89,6 +85,7 @@ export const Meal: React.FC<MealProps> = (props) => {
                     {value && breakfastLikes ? value!.breakfast.map((menu, index) => {
                         return (
                             <MealItem
+                                key={index}
                                 likes={breakfastLikes}
                                 menu={menu}
                                 index={index}
@@ -108,6 +105,7 @@ export const Meal: React.FC<MealProps> = (props) => {
                     {value && dinnerLikes ? value.dinner.map((menu, index) => {
                         return (
                             <MealItem
+                                key={index}
                                 likes={dinnerLikes}
                                 menu={menu}
                                 index={index}
